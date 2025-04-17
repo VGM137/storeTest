@@ -1,3 +1,5 @@
+# storeTest
+
 Levantar proyecto
   npm run dev
 
@@ -29,3 +31,4 @@ ORM (Object Relational Model)
   Es un modelo agnóstico para gestionar peticiones
   Sequelize
   Los métodos estáticos no necesitan una declaración para acceder a ellos
+
