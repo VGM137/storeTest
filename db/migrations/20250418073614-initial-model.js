@@ -7,6 +7,8 @@ const { ProductSchema, PRODUCT_TABLE } = require('../models/product.model');
 const { ORDER_TABLE } = require('../models/order.model');
 const { OrderProductSchema, ORDER_PRODUCT_TABLE } = require('../models/order-product.model');
 
+const { Sequelize, DataTypes } = require('sequelize');
+
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface) {
