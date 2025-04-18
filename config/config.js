@@ -1,6 +1,6 @@
 require('dotenv').config();
 
-console.log('config loaded', process.env.DB_HOST);
+console.log('config loaded', process.env.DB_URL);
 
 const config = {
   env: process.env.NODE_ENV || 'development',
