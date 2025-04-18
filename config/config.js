@@ -4,6 +4,7 @@ console.log('config loaded', process.env.DB_HOST);
 
 const config = {
   env: process.env.NODE_ENV || 'development',
+  isProd: process.env.NODE_ENV === 'production',
   port: process.env.PORT || 3000,
   db: {
     host: process.env.DB_HOST || 'localhost',
@@ -12,6 +13,7 @@ const config = {
     password: process.env.DB_PASSWORD || 'password',
     name: process.env.DB_NAME || 'yourdb',
   },
+  dbUrl: process.env.DB_URL,
   jwtSecret: process.env.JWT_SECRET || 'your_jwt_secret',
 }
 

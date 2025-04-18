@@ -8,10 +8,15 @@ const DB_PASSWORD = password
 const DB_HOST = host
 const DB_PORT = port
 const DB_NAME = name
+let URI = ``
 
-const USER = encodeURIComponent(DB_USER)
-const PASSWORD = encodeURIComponent(DB_PASSWORD)
-const URI = `postgres://${USER}:${PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}`
+if (config.isProd){
+  URI = config.dbUrl
+} else {
+  const USER = encodeURIComponent(DB_USER)
+  const PASSWORD = encodeURIComponent(DB_PASSWORD)
+  URI = `postgres://${USER}:${PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}`
+}
 
 const pool = new Pool({connectionString: URI});
 
