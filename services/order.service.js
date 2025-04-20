@@ -31,6 +31,20 @@ class OrderService {
     return order;
   }
 
+  async findByUser(userId) {
+    const orders = await models.Order.findAll({
+      where: {
+        '$customer.user.id$': userId
+      },
+      include: [{
+        association: 'customer',
+        include: ['user']
+      }]
+    });
+    console.log('Orders;',orders);
+    return orders;
+  }
+
   async update(id, changes) {
     const order = await this.findOne(id);
     const rta = await order.update(changes);
@@ -44,6 +58,14 @@ class OrderService {
   }
 
   async addItem(data) {
+    const order = await models.Order.findByPk(data.orderId);
+    if (!order) {
+      throw boom.notFound('Order does not exist');
+    }
+    const product = await models.Product.findByPk(data.productId);
+    if (!product) {
+      throw boom.notFound('Product does not exist');
+    }
     const newItem = await models.OrderProduct.create(data);
     return newItem;
   }
