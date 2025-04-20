@@ -32,3 +32,8 @@ ORM (Object Relational Model)
   Sequelize
   Los métodos estáticos no necesitan una declaración para acceder a ellos
 
+Hashing de contraseñas
+  Sirve para proteger en BD
+
+Revisar accescontroll library para seguridad más profunda
+

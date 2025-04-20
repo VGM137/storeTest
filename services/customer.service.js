@@ -1,8 +1,12 @@
 const boom = require('@hapi/boom');
+const bycrypt = require('bcrypt');
 const { models } = require('../libs/sequelize.js');
+
+const UserService = require('./user.service.js');
 
 class CustomerService {
   constructor() {
+    this.userService = new UserService();
     // this.pool = pool;
     // this.pool.on('error', (err) => console.error('Unexpected error on idle client', err));
   }
@@ -23,10 +27,37 @@ class CustomerService {
   }
 
   async create(data) {
-    const newCustomer = await models.Customer.create(data, {
-      include: ['user']
-    });
-    return newCustomer;
+    const hash = await bycrypt.hash(data.user.password, 10);
+    const existingUser = await this.userService.findByEmail(data.user.email);
+    let newData = {}
+    if (existingUser) {
+      console.log('User already exists:', existingUser);
+      newData = data;
+      delete newData.user;
+      newData = {
+        ...newData,
+        userId: existingUser.id,
+      }
+      console.log('New data:', newData);
+      const newCustomer = await models.Customer.create(newData);
+      console.log('New customer:', newCustomer);
+      return newCustomer
+    } else {
+      newData = {
+        ...data,
+        user: {
+          ...data.user,
+          password: hash
+        }
+      };
+      const newCustomer = await models.Customer.create(newData, {
+        include: ['user']
+      });
+      delete newCustomer.dataValues.user.dataValues.password;
+      return newCustomer;
+    }
+
+
   }
 
   async update(id, changes) {
